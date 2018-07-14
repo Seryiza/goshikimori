@@ -36,7 +36,7 @@ func (shiki *Shikimori) GetAchievements(userID int) (Achievements, error) {
 		"user_id": {strUserID},
 	}
 
-	url := shiki.apiURLWithQuery(getAchievementsPath, query)
+	url := shiki.ApiURLWithQuery(getAchievementsPath, query)
 	resp, err := shiki.Client.Get(url)
 	if err != nil {
 		return nil, err

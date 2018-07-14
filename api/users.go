@@ -38,7 +38,7 @@ type UserImage struct {
 // Whoami implements GET /api/users/whoami
 // https://shikimori.org/api/doc/1.0/users/whoami
 func (shiki *Shikimori) Whoami() (*User, error) {
-	url := shiki.apiURL(whoamiPath)
+	url := shiki.ApiURL(whoamiPath)
 	resp, err := shiki.Client.Get(url)
 	if err != nil {
 		return nil, err

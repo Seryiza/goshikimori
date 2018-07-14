@@ -43,8 +43,8 @@ func DefaultClientByToken(conf *oauth2.Config, appName string, tok *oauth2.Token
 	return shiki, nil
 }
 
-// apiURLWithQuery returns shikimori api url for get-queries
-func (shiki *Shikimori) apiURLWithQuery(path string, query url.Values) string {
+// ApiURLWithQuery returns shikimori api url for get-queries
+func (shiki *Shikimori) ApiURLWithQuery(path string, query url.Values) string {
 	url := url.URL{
 		Scheme:   "https",
 		Host:     "shikimori.org",
@@ -54,8 +54,8 @@ func (shiki *Shikimori) apiURLWithQuery(path string, query url.Values) string {
 	return url.String()
 }
 
-// apiURL returns shikimori api url
-func (shiki *Shikimori) apiURL(path string) string {
+// ApiURL returns shikimori api url
+func (shiki *Shikimori) ApiURL(path string) string {
 	url := url.URL{
 		Scheme: "https",
 		Host:   "shikimori.org",

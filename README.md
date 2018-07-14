@@ -24,7 +24,7 @@ go get github.com/seryiza/go-shikimori
   // shiki := api.Shikimori{...}
 
   // => https://shikimori.org/api/users/whoami
-  whoamiURL := shiki.apiURL("/api/users/whoami")
+  whoamiURL := shiki.ApiURL("/api/users/whoami")
   resp, _ := shiki.Client.Get(whoamiURL)
   whoamiJSON, _ := ioutil.ReadAll(resp.Body)
   fmt.Println(string(whoamiJSON))
