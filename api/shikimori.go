@@ -43,10 +43,8 @@ func DefaultClientByToken(conf *oauth2.Config, appName string, tok *oauth2.Token
 	return shiki, nil
 }
 
-// GetRequestURLWithQuery returns shikimori url
-// todo: сделать две функции ниже более красивыми. Напр., вынести URL в отдельную
-// 			 сущность, а добавление/отсутствие query в другие сущности (функции)
-func GetRequestURLWithQuery(path string, query url.Values) string {
+// apiURLWithQuery returns shikimori api url for get-queries
+func (shiki *Shikimori) apiURLWithQuery(path string, query url.Values) string {
 	url := url.URL{
 		Scheme:   "https",
 		Host:     "shikimori.org",
@@ -56,8 +54,8 @@ func GetRequestURLWithQuery(path string, query url.Values) string {
 	return url.String()
 }
 
-// GetRequestURL returns shikimori url
-func GetRequestURL(path string) string {
+// apiURL returns shikimori api url
+func (shiki *Shikimori) apiURL(path string) string {
 	url := url.URL{
 		Scheme: "https",
 		Host:   "shikimori.org",
