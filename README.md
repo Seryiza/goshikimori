@@ -81,31 +81,4 @@ user, err := shiki.Whoami()
 fmt.Println(user, err)
 ```
 
-Также есть вспомогательная функция `api.WithDefaultClient` для создания объекта-API на основе `http.DefaultClient`:
-```go
-conf := &oauth2.Config{
-  ClientID:     "your client id",
-  ClientSecret: "your client secret",
-  // RedirectURL задан для использования как CLI
-  // (!) Примечание: RedirectURL должен совпадать с тем,
-  // что Вы задали на странице приложения Шикимори
-  RedirectURL:  auth.StandaloneRedirectURL,
-  Endpoint:     auth.ShikimoriEndpoint,
-}
-
-url := auth.GetAuthCodeURL(conf)
-fmt.Println("Введите код из этой ссылки: ", url)
-
-var code string
-if _, err := fmt.Scanln(&code); err != nil {
-  panic(err)
-}
-
-shiki, err := api.WithDefaultClient(conf, "your application name", code)
-if err != nil {
-  panic(err)
-}
-
-user, err := shiki.Whoami()
-fmt.Println(user, err)
-```
+Также есть вспомогательная функция `api.DefaultClientByCode` для создания объекта-API на основе `http.DefaultClient`.
