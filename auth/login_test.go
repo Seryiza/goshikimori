@@ -1,6 +1,7 @@
 package auth_test
 
 import (
+	"os"
 	"testing"
 
 	"golang.org/x/oauth2"
@@ -8,10 +9,16 @@ import (
 	"github.com/seryiza/go-shikimori/auth"
 )
 
+const (
+	envLogin    = "SHIKI_LOGIN"
+	envPassword = "SHIKI_PASS"
+	envClientID = "SHIKI_CLIENTID"
+)
+
 func TestLogin(t *testing.T) {
-	login, password := "somebody", "whatsthis"
+	login, password := os.Getenv(envLogin), os.Getenv(envPassword)
 	conf := &oauth2.Config{
-		ClientID:    "your clientid here",
+		ClientID:    os.Getenv(envClientID),
 		RedirectURL: auth.StandaloneRedirectURL,
 		Endpoint:    auth.ShikimoriEndpoint,
 	}
