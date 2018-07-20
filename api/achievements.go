@@ -20,7 +20,7 @@ func (shiki *Shikimori) GetAchievements(userID int) (structs.Achievements, error
 		"user_id": {strUserID},
 	}
 
-	url := shiki.ApiURLWithQuery(getAchievementsPath, query)
+	url := shiki.ApiURLWithValues(getAchievementsPath, query)
 	resp, err := shiki.Client.Get(url)
 	if err != nil {
 		return nil, err
