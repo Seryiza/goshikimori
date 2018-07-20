@@ -16,7 +16,7 @@ type Shikimori struct {
 
 func DefaultClientByCode(conf *oauth2.Config, appName, authCode string) (*Shikimori, error) {
 	ctx := context.Background()
-	ctx = auth.AddShikimoriTransport(ctx, `Seryiza's Test API`)
+	ctx = auth.AddShikimoriTransport(ctx, appName)
 
 	tok, err := conf.Exchange(ctx, authCode)
 	if err != nil {
@@ -33,7 +33,7 @@ func DefaultClientByCode(conf *oauth2.Config, appName, authCode string) (*Shikim
 
 func DefaultClientByToken(conf *oauth2.Config, appName string, tok *oauth2.Token) (*Shikimori, error) {
 	ctx := context.Background()
-	ctx = auth.AddShikimoriTransport(ctx, `Seryiza's Test API`)
+	ctx = auth.AddShikimoriTransport(ctx, appName)
 
 	client := conf.Client(ctx, tok)
 	shiki := &Shikimori{
@@ -44,12 +44,22 @@ func DefaultClientByToken(conf *oauth2.Config, appName string, tok *oauth2.Token
 }
 
 // ApiURLWithQuery returns shikimori api url for get-queries
-func (shiki *Shikimori) ApiURLWithQuery(path string, query url.Values) string {
+func (shiki *Shikimori) ApiURLWithValues(path string, query url.Values) string {
 	url := url.URL{
 		Scheme:   "https",
 		Host:     "shikimori.org",
 		Path:     path,
 		RawQuery: query.Encode(),
+	}
+	return url.String()
+}
+
+func (shiki *Shikimori) ApiURLWithString(path string, strQuery string) string {
+	url := url.URL{
+		Scheme:   "https",
+		Host:     "shikimori.org",
+		Path:     path,
+		RawQuery: strQuery,
 	}
 	return url.String()
 }
