@@ -2,6 +2,7 @@ package auth
 
 import (
 	"context"
+	"errors"
 	"net/http"
 
 	"golang.org/x/oauth2"
@@ -37,7 +38,18 @@ func AddShikimoriTransport(ctx context.Context, appName string) context.Context 
 // RoundTrip implements RoundTripper
 func (tr ShikimoriTransport) RoundTrip(req *http.Request) (*http.Response, error) {
 	req.Header.Set("User-Agent", tr.ApplicationName)
-	return tr.target().RoundTrip(req)
+
+	resp, err := tr.target().RoundTrip(req)
+	if err != nil {
+		return resp, err
+	}
+
+	// todo: подумать над обработкой ошибок токена
+	if resp.StatusCode == http.StatusUnauthorized {
+		return resp, errors.New("The access token is invalid")
+	}
+
+	return resp, err
 }
 
 func (tr ShikimoriTransport) target() http.RoundTripper {
