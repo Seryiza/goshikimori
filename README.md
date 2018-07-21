@@ -82,4 +82,4 @@ user, err := shiki.Whoami()
 fmt.Println(user, err)
 ```
 
-Также есть вспомогательные функции `api.DefaultClientByCode`, `api.DefaultClientByToken`, `helpers.GetShikimori` (используя env-переменный) для меньшего написания кода.
+Также есть вспомогательные функции `api.DefaultClientByCode`, `api.DefaultClientByToken`, `helpers.GetShikimori` (используя env-переменные) для меньшего написания кода.
