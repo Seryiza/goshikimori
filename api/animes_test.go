@@ -4,15 +4,15 @@ import (
 	"testing"
 
 	"github.com/seryiza/go-shikimori/api"
-	"github.com/seryiza/go-shikimori/api/shikiTesting"
+	"github.com/seryiza/go-shikimori/helpers"
 )
 
 func TestSimpleGetAnimes(t *testing.T) {
-	shiki, err := shikiTesting.GetShikimori()
+	shiki, err := helpers.GetShikimori()
 	if err != nil {
 		t.Error(err)
 	}
-	defer shikiTesting.RefreshToken(shiki)
+	defer helpers.SaveToken(shiki)
 
 	animes, err := shiki.GetAnimes(&api.GetAnimeOpts{
 		IDFilter: "1",

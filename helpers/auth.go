@@ -1,4 +1,4 @@
-package shikiTesting
+package helpers
 
 import (
 	"os"
@@ -39,6 +39,6 @@ func GetAuth() (*oauth2.Config, *oauth2.Token, string, error) {
 	return conf, tok, appName, nil
 }
 
-func RefreshToken(shiki *api.Shikimori) {
+func SaveToken(shiki *api.Shikimori) {
 	token.ToFile(shikiPrefix, shiki.Client)
 }
