@@ -3,8 +3,8 @@ package helpers
 import (
 	"os"
 
-	"github.com/seryiza/loadOAuthFrom/conf"
-	"github.com/seryiza/loadOAuthFrom/token"
+	"github.com/seryiza/loadOAuth/conf"
+	"github.com/seryiza/loadOAuth/token"
 	"golang.org/x/oauth2"
 
 	"github.com/seryiza/go-shikimori/api"

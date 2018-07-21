@@ -5,7 +5,8 @@
 Сейчас поддерживается **только [API 1.0](https://shikimori.org/api/doc/1.0)**.
 
 ## Зависимости
-* [golang/oauth2](https://github.com/golang/oauth2)
+* [github.com/golang/oauth2](https://github.com/golang/oauth2)
+* [github.com/seryiza/loadOAuth](https://github.com/seryiza/loadOAuth)
 
 ## Установка
 ```bash
