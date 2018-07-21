@@ -1,5 +1,56 @@
 package structs
 
+const (
+	// kinds of anime
+	AnimeKindTV      = "tv"
+	AnimeKindMovie   = "movie"
+	AnimeKindOVA     = "ova"
+	AnimeKindONA     = "ona"
+	AnimeKindSpecial = "special"
+	AnimeKindMusic   = "music"
+	AnimeKindTV13    = "tv_13"
+	AnimeKindTV24    = "tv_24"
+	AnimeKindTV48    = "tv_48"
+
+	// status of anime
+	AnimeStatusAnons    = "anons"
+	AnimeStatusOngoing  = "ongoing"
+	AnimeStatusReleased = "released"
+
+	// durations of episode
+	AnimeDurationLess10Min = "S"
+	AnimeDurationLess30Min = "D"
+	AnimeDurationMore30Min = "F"
+
+	// age rating of episode
+	AnimeRatingNone  = "none"   // none – No rating
+	AnimeRatingG     = "g"      // G - All ages
+	AnimeRatingPG    = "pg"     // PG - Children
+	AnimeRatingPG13  = "pg_13"  // PG-13 - Teens 13 or older
+	AnimeRatingR     = "r"      // R - 17+ recommended (violence & profanity)
+	AnimeRatingRPlus = "r_plus" // R+ - Mild Nudity (may also contain violence & profanity)
+	AnimeRatingRx    = "rx"     // Rx - Hentai (extreme sexual content/nudity)
+
+	// user list statuses
+	AnimeListPlanned    = "planned"
+	AnimeListWatching   = "watching"
+	AnimeListRewatching = "rewatching"
+	AnimeListCompleted  = "completed"
+	AnimeListOnHold     = "on_hold"
+	AnimeListDropped    = "dropped"
+
+	// sort order
+	AnimeOrderByID         = "id"
+	AnimeOrderByRanked     = "ranked"
+	AnimeOrderByKind       = "kind"
+	AnimeOrderByPopularity = "popularity"
+	AnimeOrderByName       = "name"
+	AnimeOrderByAiredOn    = "aired_on"
+	AnimeOrderByEpisodes   = "episodes"
+	AnimeOrderByStatus     = "status"
+	AnimeOrderByRandom     = "random"
+)
+
 type Animes []Anime
 
 type Anime struct {
@@ -26,21 +77,3 @@ type AnimeImage struct {
 	X96      string `json:"x96"`
 	X48      string `json:"x48"`
 }
-
-const (
-	// kinds of anime
-	AnimeKindTV      = "tv"
-	AnimeKindMovie   = "movie"
-	AnimeKindOVA     = "ova"
-	AnimeKindONA     = "ona"
-	AnimeKindSpecial = "special"
-	AnimeKindMusic   = "music"
-	AnimeKindTV13    = "tv_13"
-	AnimeKindTV24    = "tv_24"
-	AnimeKindTV48    = "tv_48"
-
-	// status of anime
-	AnimeStatusAnons    = "anons"
-	AnimeStatusOngoing  = "ongoing"
-	AnimeStatusReleased = "released"
-)
