@@ -5,7 +5,8 @@ const (
 	getAchievementsPath = "/api/achievements"
 
 	// Animes
-	getAnimePath = "/api/animes"
+	getAnimesPath  = "/api/animes"
+	getAnimeFormat = "/api/animes/%d"
 
 	// Users
 	whoamiPath = "/api/users/whoami"

@@ -22,9 +22,9 @@ func (shiki *Shikimori) GetAchievements(userID int) (structs.Achievements, error
 		return nil, err
 	}
 
-	jr := json.NewDecoder(resp.Body)
+	jd := json.NewDecoder(resp.Body)
 	achs := make(structs.Achievements, 0)
-	if err = jr.Decode(&achs); err != nil {
+	if err = jd.Decode(&achs); err != nil {
 		return nil, err
 	}
 

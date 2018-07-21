@@ -2,6 +2,7 @@ package api
 
 import (
 	"encoding/json"
+	"fmt"
 
 	"github.com/pasztorpisti/qs"
 
@@ -70,7 +71,7 @@ type GetAnimeOpts struct {
 	Censored bool `qs:"censored"`
 }
 
-// GetAnimes implements GET /api/anime
+// GetAnimes implements GET /api/animes
 // https://shikimori.org/api/doc/1.0/animes/index
 func (shiki *Shikimori) GetAnimes(opts *GetAnimeOpts) (structs.Animes, error) {
 	urlVals, err := qs.Marshal(opts)
@@ -78,17 +79,36 @@ func (shiki *Shikimori) GetAnimes(opts *GetAnimeOpts) (structs.Animes, error) {
 		return nil, err
 	}
 
-	url := shiki.ApiURLWithString(getAnimePath, urlVals)
+	url := shiki.ApiURLWithString(getAnimesPath, urlVals)
 	resp, err := shiki.Client.Get(url)
 	if err != nil {
 		return nil, err
 	}
 
-	jr := json.NewDecoder(resp.Body)
 	animes := make(structs.Animes, 0)
-	if err = jr.Decode(&animes); err != nil {
+	jd := json.NewDecoder(resp.Body)
+	if err = jd.Decode(&animes); err != nil {
 		return nil, err
 	}
 
 	return animes, nil
+}
+
+// GetAnime implements GET /api/animes/:id
+// https://shikimori.org/api/doc/1.0/animes/show
+func (shiki *Shikimori) GetAnime(animeID int32) (*structs.Anime, error) {
+	path := fmt.Sprintf(getAnimeFormat, animeID)
+	url := shiki.ApiURL(path)
+	resp, err := shiki.Client.Get(url)
+	if err != nil {
+		return nil, err
+	}
+
+	anime := &structs.Anime{}
+	jd := json.NewDecoder(resp.Body)
+	if err = jd.Decode(anime); err != nil {
+		return nil, err
+	}
+
+	return anime, nil
 }

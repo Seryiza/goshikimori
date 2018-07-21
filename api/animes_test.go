@@ -26,3 +26,21 @@ func TestSimpleGetAnimes(t *testing.T) {
 		t.Error("Anime name isn't Cowboy Bebop")
 	}
 }
+
+func TestSimpleGetOneAnime(t *testing.T) {
+	shiki, err := helpers.GetShikimori()
+	if err != nil {
+		t.Error(err)
+	}
+	defer helpers.SaveToken(shiki)
+
+	anime, err := shiki.GetAnime(1)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if anime.Name != "Cowboy Bebop" {
+		t.Error("Anime name isn't Cowboy Bebop")
+	}
+}

@@ -69,6 +69,8 @@ type Anime struct {
 	// todo: посмотреть, можно ли их как-нибудь легко/удобно перевести в time.Time
 	AiredOn    string `json:"aired_on"`
 	ReleasedOn string `json:"released_on"`
+
+	// todo: добавить доп. поля отсюда: https://shikimori.org/api/doc/1.0/animes/show
 }
 
 type AnimeImage struct {
