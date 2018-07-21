@@ -11,12 +11,11 @@ import (
 // GetAchievements implemets GET /api/achievements
 // https://shikimori.org/api/doc/1.0/achievements/index
 func (shiki *Shikimori) GetAchievements(userID int) (structs.Achievements, error) {
-	strUserID := strconv.Itoa(userID)
-	query := url.Values{
-		"user_id": {strUserID},
+	urlVals := url.Values{
+		"user_id": {strconv.Itoa(userID)},
 	}
 
-	url := shiki.ApiURLWithValues(getAchievementsPath, query)
+	url := shiki.ApiURLWithValues(getAchievementsPath, urlVals)
 	resp, err := shiki.Client.Get(url)
 	if err != nil {
 		return nil, err
