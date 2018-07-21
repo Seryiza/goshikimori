@@ -33,3 +33,18 @@ func TestLogin(t *testing.T) {
 		t.Error("Code is empty")
 	}
 }
+
+func TestWrongLogin(t *testing.T) {
+	login, password := "abc", "xyz"
+	conf := &oauth2.Config{
+		ClientID:    os.Getenv(envClientID),
+		RedirectURL: auth.StandaloneRedirectURL,
+		Endpoint:    auth.ShikimoriEndpoint,
+	}
+	url := auth.GetAuthCodeURL(conf)
+
+	_, err := auth.GetCodeByLogin(url, login, password)
+	if err == nil {
+		t.Error("Error is nil (want non-nil)")
+	}
+}

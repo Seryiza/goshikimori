@@ -1,6 +1,8 @@
 package auth
 
 import (
+	"errors"
+
 	"github.com/headzoo/surf"
 )
 
@@ -34,11 +36,14 @@ func GetCodeByLogin(url, login, password string) (string, error) {
 		if err = form.Submit(); err != nil {
 			return "", err
 		}
-		// todo: добавить выброс ошибки на неверный пароль
 
 		err = bow.Open(url)
 		if err != nil {
 			return "", err
+		}
+
+		if bow.Url().RequestURI() == signinURL {
+			return "", errors.New("Wrong login and/or password")
 		}
 	}
 
