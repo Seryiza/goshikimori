@@ -81,4 +81,4 @@ user, err := shiki.Whoami()
 fmt.Println(user, err)
 ```
 
-Также есть вспомогательная функция `api.DefaultClientByCode` для создания объекта-API на основе `http.DefaultClient`.
+Также есть вспомогательные функции `api.DefaultClientByCode`, `api.DefaultClientByToken`, `helpers.GetShikimori` (используя env-переменный) для меньшего написания кода.
