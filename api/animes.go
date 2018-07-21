@@ -8,10 +8,6 @@ import (
 	"github.com/seryiza/go-shikimori/api/structs"
 )
 
-const (
-	getAnimePath = "/api/animes"
-)
-
 type GetAnimeOpts struct {
 	// Search phrase to filter animes by name.
 	SearchText string `qs:"search,omitempty"`

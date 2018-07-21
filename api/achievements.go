@@ -8,10 +8,6 @@ import (
 	"github.com/seryiza/go-shikimori/api/structs"
 )
 
-const (
-	getAchievementsPath = "/api/achievements"
-)
-
 // GetAchievements implemets GET /api/achievements
 // https://shikimori.org/api/doc/1.0/achievements/index
 func (shiki *Shikimori) GetAchievements(userID int) (structs.Achievements, error) {
