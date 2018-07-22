@@ -6,7 +6,8 @@
 
 ## Зависимости
 * [github.com/golang/oauth2](https://github.com/golang/oauth2)
-* [github.com/seryiza/loadOAuth](https://github.com/seryiza/loadOAuth)
+* [github.com/seryiza/loadOAuth](https://github.com/seryiza/loadOAuth) (пакет `helpers`)
+* [github.com/headzoo/surf](https://github.com/headzoo/surf)
 
 ## Установка
 ```bash
