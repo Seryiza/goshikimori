@@ -26,7 +26,8 @@ type userCredentials struct {
 	Password string `json:"password"`
 }
 
-// GetCodeByLogin gets auth code by login + password
+// GetCodeByLogin gets auth code by login + password.
+// Application redirect url must be StandaloneRedirectURL (see endpoind.go).
 func GetCodeByLogin(url, appName, login, password string) (string, error) {
 	// todo: Разбить эту длинную функцию
 	bow := surf.NewBrowser()
