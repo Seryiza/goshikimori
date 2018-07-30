@@ -1,50 +1,74 @@
 package auth
 
 import (
+	"bytes"
+	"encoding/json"
 	"errors"
+	"html"
 
 	"github.com/headzoo/surf"
 )
 
 const (
-	signinURL     = "/users/sign_in"
-	signinForm    = "form.new_user"
-	loginField    = "user[nickname]"
-	passwordField = "user[password]"
+	createSessionURL = `https://shikimori.org/api/sessions`
+	jsonErrorKey     = "error"
 
 	authAgreeForm = "form.authorize"
 	authCodeField = "#authorization_code"
 )
 
+type userSession struct {
+	User userCredentials `json:"user"`
+}
+
+type userCredentials struct {
+	Login    string `json:"nickname"`
+	Password string `json:"password"`
+}
+
 // GetCodeByLogin gets auth code by login + password
-func GetCodeByLogin(url, login, password string) (string, error) {
+func GetCodeByLogin(url, appName, login, password string) (string, error) {
+	// todo: Разбить эту длинную функцию
 	bow := surf.NewBrowser()
-	err := bow.Open(url)
+	bow.SetUserAgent(appName)
+
+	if login == "" || password == "" {
+		return "", errors.New("Empty login and/or password")
+	}
+
+	user := &userSession{
+		User: userCredentials{
+			Login:    login,
+			Password: password,
+		},
+	}
+	userBytes, err := json.Marshal(user)
 	if err != nil {
 		return "", err
 	}
 
-	// if need to login
-	if bow.Url().RequestURI() == signinURL {
-		form, err := bow.Form(signinForm)
-		if err != nil {
-			return "", err
-		}
+	err = bow.Post(
+		createSessionURL,
+		`application/json`,
+		bytes.NewReader(userBytes),
+	)
+	if err != nil {
+		return "", err
+	}
 
-		form.Input(loginField, login)
-		form.Input(passwordField, password)
-		if err = form.Submit(); err != nil {
-			return "", err
-		}
+	loginResponse := make(map[string]interface{})
+	respJSON := html.UnescapeString(bow.Body())
+	if err = json.Unmarshal([]byte(respJSON), &loginResponse); err != nil {
+		return "", err
+	}
 
-		err = bow.Open(url)
-		if err != nil {
-			return "", err
-		}
+	if errMsg, ok := loginResponse[jsonErrorKey]; ok {
+		return "", errors.New(errMsg.(string))
+	}
 
-		if bow.Url().RequestURI() == signinURL {
-			return "", errors.New("Wrong login and/or password")
-		}
+	err = bow.Open(url)
+	if err != nil {
+		return "", err
 	}
 
 	// if need click to "Agree"
