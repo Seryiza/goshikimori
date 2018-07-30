@@ -45,17 +45,17 @@ func getConf() (*oauth2.Config, error) {
 func getToken(conf *oauth2.Config) (*oauth2.Token, error) {
 	tok, err := token.FromFile(shikiPrefix)
 	if err != nil {
-		// Try get token by login/password
-		tok, err = getTokenByLogin(conf)
-		if err != nil {
-			return nil, err
-		}
+		return nil, err
 	}
 
 	return tok, nil
 }
 
 func getTokenByLogin(conf *oauth2.Config) (*oauth2.Token, error) {
+	// Функция предназначена для получения токена по логин-паролю, но сейчас
+	// не используется из-за того, что golang.org/x/oauth2 сам умеет получать
+	// новый токен, используя refresh_token.
+
 	url := auth.GetAuthCodeURL(conf)
 	appName := os.Getenv(shikiAppName)
 	login, password := os.Getenv(shikiLogin), os.Getenv(shikiPassword)
