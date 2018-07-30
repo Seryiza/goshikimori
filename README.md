@@ -7,6 +7,7 @@
 ## Зависимости
 * [github.com/golang/oauth2](https://github.com/golang/oauth2)
 * [github.com/seryiza/loadOAuth](https://github.com/seryiza/loadOAuth) (пакет `helpers`)
+* [github.com/pasztorpisti/qs](https://github.com/pasztorpisti/qs)
 * [github.com/headzoo/surf](https://github.com/headzoo/surf)
 
 ## Установка
