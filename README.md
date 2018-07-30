@@ -88,7 +88,7 @@ fmt.Println(user, err)
 ## Тестирование
 Тесты также проверяют запрос-ответ от Шикимори. Для корректной работы всех тестов необходимо задать следующие envirement-переменные:
 * `SHIKI_LOGIN` -- псевдоним пользователя
-* `SHIKI_PASS` -- пароль пользователя (сейчас используется для проверки [/api/sessions](https://shikimori.org/api/doc/1.0/sessions/create.html))
+* `SHIKI_PASS` -- пароль пользователя (сейчас используется для [/api/sessions](https://shikimori.org/api/doc/1.0/sessions/create.html))
 * `SHIKI_APP_NAME` -- название OAuth-приложения на Шикимори
 * `SHIKI_CLIENTID` -- публичный Client ID приложения на Шикимори
 * `SHIKI_TOKEN_FILE` -- путь к файлу с json-токеном
