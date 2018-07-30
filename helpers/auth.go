@@ -1,6 +1,7 @@
 package helpers
 
 import (
+	"context"
 	"os"
 
 	"github.com/seryiza/loadOAuth/conf"
@@ -8,35 +9,72 @@ import (
 	"golang.org/x/oauth2"
 
 	"github.com/seryiza/go-shikimori/api"
+	"github.com/seryiza/go-shikimori/auth"
 )
 
 const (
-	shikiPrefix  = "SHIKI"
-	shikiAppName = "SHIKI_APP_NAME"
+	shikiPrefix   = "SHIKI"
+	shikiLogin    = "SHIKI_LOGIN"
+	shikiPassword = "SHIKI_PASS"
+	shikiAppName  = "SHIKI_APP_NAME"
 )
 
 func GetShikimori() (*api.Shikimori, error) {
-	conf, tok, appName, err := GetAuth()
+	conf, err := getConf()
 	if err != nil {
 		return nil, err
 	}
 
+	tok, err := getToken(conf)
+	if err != nil {
+		return nil, err
+	}
+
+	appName := getAppName()
 	return api.DefaultClientByToken(conf, appName, tok)
 }
 
-func GetAuth() (*oauth2.Config, *oauth2.Token, string, error) {
+func getConf() (*oauth2.Config, error) {
 	conf, err := conf.FromFile(shikiPrefix)
 	if err != nil {
-		return nil, nil, "", err
+		return nil, err
 	}
+	return conf, nil
+}
 
+func getToken(conf *oauth2.Config) (*oauth2.Token, error) {
 	tok, err := token.FromFile(shikiPrefix)
 	if err != nil {
-		return nil, nil, "", err
+		// Try get token by login/password
+		tok, err = getTokenByLogin(conf)
+		if err != nil {
+			return nil, err
+		}
 	}
 
+	return tok, nil
+}
+
+func getTokenByLogin(conf *oauth2.Config) (*oauth2.Token, error) {
+	url := auth.GetAuthCodeURL(conf)
 	appName := os.Getenv(shikiAppName)
-	return conf, tok, appName, nil
+	login, password := os.Getenv(shikiLogin), os.Getenv(shikiPassword)
+
+	code, err := auth.GetCodeByLogin(url, appName, login, password)
+	if err != nil {
+		return nil, err
+	}
+
+	tok, err := conf.Exchange(context.Background(), code)
+	if err != nil {
+		return nil, err
+	}
+
+	return tok, nil
+}
+
+func getAppName() string {
+	return os.Getenv(shikiAppName)
 }
 
 func SaveToken(shiki *api.Shikimori) {
