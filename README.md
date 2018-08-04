@@ -48,6 +48,8 @@ fmt.Println(user, err)
 ```
 
 ## Пример
+Также есть примеры в папке `examples`.
+
 ```go
 conf := &oauth2.Config{
   ClientID:     "your client id",
@@ -92,5 +94,7 @@ fmt.Println(user, err)
 * `SHIKI_PASS` -- пароль пользователя (сейчас используется для [/api/sessions](https://shikimori.org/api/doc/1.0/sessions/create.html))
 * `SHIKI_APP_NAME` -- название OAuth-приложения на Шикимори
 * `SHIKI_CLIENTID` -- публичный Client ID приложения на Шикимори
+* `SHIKI_CLIENTSECRET` -- секретный ключ приложения на Шикимори
+* `SHIKI_REDIRECT_URL` -- url для перенаправления приложения (на Шикимори)
 * `SHIKI_TOKEN_FILE` -- путь к файлу с json-токеном
 * `SHIKI_CONF_FILE` -- путь к файлу с json oauth-конфигурацией
