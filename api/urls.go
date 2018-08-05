@@ -11,6 +11,9 @@ const (
 	// Genres
 	getGenresList = "/api/genres"
 
+	// Studios
+	getStudiosList = "/api/studios"
+
 	// Users
 	whoamiPath = "/api/users/whoami"
 )
