@@ -2,6 +2,7 @@ package helpers
 
 import (
 	"context"
+	"errors"
 	"os"
 
 	"github.com/seryiza/loadOAuth/conf"
@@ -13,12 +14,20 @@ import (
 )
 
 const (
-	shikiPrefix   = "SHIKI"
-	shikiLogin    = "SHIKI_LOGIN"
-	shikiPassword = "SHIKI_PASS"
-	shikiAppName  = "SHIKI_APP_NAME"
+	// envirement variables
+	shikiPrefix  = "SHIKI"
+	shikiAppName = "SHIKI_APP_NAME"
+
+	// to create config and new token if error
+	shikiLogin        = "SHIKI_LOGIN"
+	shikiPassword     = "SHIKI_PASS"
+	shikiClientID     = "SHIKI_CLIENTID"
+	shikiClientSecret = "SHIKI_CLIENTSECRET"
+	shikiRedirectURL  = "SHIKI_REDIRECT_URL"
 )
 
+// GetShikimori returns api.Shikimori by config and token from files (using loadOAuth).
+// If loadOAuth returns error, try create config/token from env-vars
 func GetShikimori() (*api.Shikimori, error) {
 	conf, err := getConf()
 	if err != nil {
@@ -37,7 +46,26 @@ func GetShikimori() (*api.Shikimori, error) {
 func getConf() (*oauth2.Config, error) {
 	conf, err := conf.FromFile(shikiPrefix)
 	if err != nil {
-		return nil, err
+		// Try create config from env-vars
+		return getConfFromEnv()
+	}
+	return conf, nil
+}
+
+func getConfFromEnv() (*oauth2.Config, error) {
+	clientID := os.Getenv(shikiClientID)
+	clientSecret := os.Getenv(shikiClientSecret)
+	redirect := os.Getenv(shikiRedirectURL)
+
+	if clientID == "" || clientSecret == "" || redirect == "" {
+		return nil, errors.New("Cannot get clientID, clientSecret and/or redirect url from env")
+	}
+
+	conf := &oauth2.Config{
+		ClientID:     clientID,
+		ClientSecret: clientSecret,
+		Endpoint:     auth.ShikimoriEndpoint,
+		RedirectURL:  redirect,
 	}
 	return conf, nil
 }
