@@ -96,7 +96,7 @@ func (shiki *Shikimori) GetAnimes(opts *GetAnimeOpts) (structs.Animes, error) {
 
 // GetAnime implements GET /api/animes/:id
 // https://shikimori.org/api/doc/1.0/animes/show
-func (shiki *Shikimori) GetAnime(animeID int32) (*structs.Anime, error) {
+func (shiki *Shikimori) GetAnime(animeID int32) (*structs.AnimeDetailed, error) {
 	path := fmt.Sprintf(getAnimeFormat, animeID)
 	url := shiki.ApiURL(path)
 	resp, err := shiki.Client.Get(url)
@@ -104,7 +104,7 @@ func (shiki *Shikimori) GetAnime(animeID int32) (*structs.Anime, error) {
 		return nil, err
 	}
 
-	anime := &structs.Anime{}
+	anime := &structs.AnimeDetailed{}
 	jd := json.NewDecoder(resp.Body)
 	if err = jd.Decode(anime); err != nil {
 		return nil, err

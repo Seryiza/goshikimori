@@ -1,5 +1,9 @@
 package structs
 
+import (
+	"time"
+)
+
 const (
 	// kinds of anime
 	AnimeKindTV      = "tv"
@@ -53,6 +57,8 @@ const (
 
 type Animes []Anime
 
+// Anime is short description of some anime.
+// Ex., GET /api/anime
 type Anime struct {
 	ID          int32  `json:"id"`
 	Name        string `json:"name"`
@@ -69,8 +75,6 @@ type Anime struct {
 	// todo: посмотреть, можно ли их как-нибудь легко/удобно перевести в time.Time
 	AiredOn    string `json:"aired_on"`
 	ReleasedOn string `json:"released_on"`
-
-	// todo: добавить доп. поля отсюда: https://shikimori.org/api/doc/1.0/animes/show
 }
 
 type AnimeImage struct {
@@ -78,4 +82,57 @@ type AnimeImage struct {
 	Preview  string `json:"preview"`
 	X96      string `json:"x96"`
 	X48      string `json:"x48"`
+}
+
+// AnimeDetailed is full description of some anime.
+// Ex., GET /api/animes/:id
+type AnimeDetailed struct {
+	Anime
+	Rating string `json:"rating"`
+
+	English  []string `json:"english"`
+	Japanese []string `json:"japanese"`
+	Synonyms []string `json:"synonyms"`
+
+	// Duration of an episode
+	Duration int16  `json:"duration"`
+	Score    string `json:"score"`
+
+	Description       string `json:"description"`
+	HTMLDescription   string `json:"description_html"`
+	SourceDescription string `json:"description_source"`
+
+	Franchise string `json:"franchise"`
+	Favoured  bool   `json:"favoured"`
+	Anons     bool   `json:"anons"`
+	Ongoing   bool   `json:"ongoing"`
+
+	ThreadID      int32 `json:"thread_id"`
+	TopicID       int32 `json:"topic_id"`
+	MyListAnimeID int32 `json:"myanimelist_id"`
+
+	RatesScoresStats   []ScoreStat `json:"rates_scores_stats"`
+	RatesStatusesStats []UseStat   `json:"rates_statuses_stats"`
+
+	UpdatedAt     time.Time `json:"updated_at"`
+	NextEpisodeAt time.Time `json:"next_episode_at"`
+
+	Genres  Genres  `json:"genres"`
+	Studios Studios `json:"studios"`
+
+	// Last videos of anime (not all: get it all separately)
+	LastVideos      Videos      `json:"videos"`
+	LastScreenshots Screenshots `json:"screenshots"`
+
+	UserRate AnimeRate `json:"user_rate"`
+}
+
+type ScoreStat struct {
+	Name  int8  `json:"name"`
+	Value int32 `json:"value"`
+}
+
+type UseStat struct {
+	Name  string `json:"name"`
+	Value int32  `json:"value"`
 }
