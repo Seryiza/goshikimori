@@ -6,7 +6,7 @@ import (
 	"github.com/seryiza/go-shikimori/api/structs"
 )
 
-// GetStudiosList implements /api/studios
+// GetStudiosList implements GET /api/studios
 // https://shikimori.org/api/doc/1.0/studios/index
 func (shiki *Shikimori) GetStudiosList() (structs.Studios, error) {
 	url := shiki.ApiURL(getStudiosList)

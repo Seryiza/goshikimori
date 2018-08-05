@@ -99,6 +99,7 @@ func (shiki *Shikimori) GetAnimes(opts *GetAnimeOpts) (structs.Animes, error) {
 func (shiki *Shikimori) GetAnime(animeID int32) (*structs.AnimeDetailed, error) {
 	path := fmt.Sprintf(getAnimeFormat, animeID)
 	url := shiki.ApiURL(path)
+
 	resp, err := shiki.Client.Get(url)
 	if err != nil {
 		return nil, err

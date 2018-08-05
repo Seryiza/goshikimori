@@ -16,4 +16,7 @@ const (
 
 	// Users
 	whoamiPath = "/api/users/whoami"
+
+	// Videos
+	getVideoFormat = "/api/animes/%d/videos"
 )
