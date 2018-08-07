@@ -19,7 +19,7 @@ go get github.com/seryiza/goshikimori
 Прежде всего, для OAuth2 потребуется создать приложение [на самом Шикимори](https://shikimori.org/oauth/applications). Для авторизации потребуется *название приложения*, *client id* и *client secret*.
 
 ### Работа с API
-Объект `api.Shikimori` предназначен для взаимодействия с API Шикимори. Можно использовать через:
+Объект `goshikimori.Shikimori` предназначен для взаимодействия с API Шикимори. Можно использовать через:
 
 * HTTP-запросы `Shikimori.Get/Post/...`:
 ```go
@@ -27,7 +27,7 @@ go get github.com/seryiza/goshikimori
 
   resp, _ := shiki.Get("users/whoami")    // для GET https://shikimori.org/api/users/whoami
   userJSON, _ := ioutil.ReadAll(resp.Body)
-  fmt.Println(string(whoamiJSON))
+  fmt.Println(string(userJSON))
   // => {"id":206253,"nickname":"Seryiza",...,"locale":"ru"}
 ```
 
@@ -93,7 +93,7 @@ if err = jd.Decode(user); err != nil {
 fmt.Printf("I'm %s", user.Nickname)
 ```
 
-Также есть вспомогательные функции `helpers` (используя файлы и env-переменные) для написания меньшего кода:
+Также есть вспомогательные функции `helpers` (использующие файлы и env-переменные) для написания меньшего кода:
 
 ```go
 // GetShikimori получает oauth2 конфиг и токен из файлов или env-переменных
