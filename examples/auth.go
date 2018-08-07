@@ -8,7 +8,7 @@ import (
 
 	"golang.org/x/oauth2"
 
-	"github.com/seryiza/go-shikimori/auth"
+	"github.com/seryiza/goshikimori/auth"
 )
 
 func getConfig() *oauth2.Config {

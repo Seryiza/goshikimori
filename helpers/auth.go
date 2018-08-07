@@ -9,8 +9,8 @@ import (
 	"github.com/seryiza/loadOAuth/token"
 	"golang.org/x/oauth2"
 
-	"github.com/seryiza/go-shikimori/api"
-	"github.com/seryiza/go-shikimori/auth"
+	"github.com/seryiza/goshikimori"
+	"github.com/seryiza/goshikimori/auth"
 )
 
 const (
@@ -26,33 +26,36 @@ const (
 	shikiRedirectURL  = "SHIKI_REDIRECT_URL"
 )
 
-// GetShikimori returns api.Shikimori by config and token from files (using loadOAuth).
+// GetShikimori returns goshikimori.Shikimori by config and token from files (using loadOAuth).
 // If loadOAuth returns error, try create config/token from env-vars
-func GetShikimori() (*api.Shikimori, error) {
-	conf, err := getConf()
+func GetShikimori(version string) (*goshikimori.Shikimori, error) {
+	conf, err := GetConfig()
 	if err != nil {
 		return nil, err
 	}
 
-	tok, err := getToken(conf)
+	tok, err := GetToken(conf)
 	if err != nil {
 		return nil, err
 	}
 
-	appName := getAppName()
-	return api.DefaultClientByToken(conf, appName, tok)
+	appName := GetAppName()
+	shiki := CreateShikimoriByToken(conf, tok, appName, version)
+	return shiki, nil
 }
 
-func getConf() (*oauth2.Config, error) {
+// GetConfig returns oauth2 config from file. If cannot, tries create from env-vars
+func GetConfig() (*oauth2.Config, error) {
 	conf, err := conf.FromFile(shikiPrefix)
 	if err != nil {
 		// Try create config from env-vars
-		return getConfFromEnv()
+		return getConfigFromEnv()
 	}
 	return conf, nil
 }
 
-func getConfFromEnv() (*oauth2.Config, error) {
+// getConfigFromEnv creates oauth2 config from env-variables
+func getConfigFromEnv() (*oauth2.Config, error) {
 	clientID := os.Getenv(shikiClientID)
 	clientSecret := os.Getenv(shikiClientSecret)
 	redirect := os.Getenv(shikiRedirectURL)
@@ -70,7 +73,8 @@ func getConfFromEnv() (*oauth2.Config, error) {
 	return conf, nil
 }
 
-func getToken(conf *oauth2.Config) (*oauth2.Token, error) {
+// GetToken returns oauth2 token from file. If cannot, try get from env-variables
+func GetToken(conf *oauth2.Config) (*oauth2.Token, error) {
 	tok, err := token.FromFile(shikiPrefix)
 	if err != nil {
 		// Try get token by login/password
@@ -80,6 +84,7 @@ func getToken(conf *oauth2.Config) (*oauth2.Token, error) {
 	return tok, nil
 }
 
+// getTokenByLogin gets token by login + password (which get from env-vars)
 func getTokenByLogin(conf *oauth2.Config) (*oauth2.Token, error) {
 	url := auth.GetAuthCodeURL(conf)
 	appName := os.Getenv(shikiAppName)
@@ -98,10 +103,12 @@ func getTokenByLogin(conf *oauth2.Config) (*oauth2.Token, error) {
 	return tok, nil
 }
 
-func getAppName() string {
+// GetAppName returns Shikimori application name
+func GetAppName() string {
 	return os.Getenv(shikiAppName)
 }
 
-func SaveToken(shiki *api.Shikimori) {
+// SaveToken to file (if token changed)
+func SaveToken(shiki *goshikimori.Shikimori) {
 	token.ToFile(shikiPrefix, shiki.Client)
 }

@@ -1,14 +1,12 @@
 # API Шикимори для Golang
 [![GoDoc](https://godoc.org/github.com/Seryiza/go-shikimori?status.svg)](https://godoc.org/github.com/Seryiza/go-shikimori) [![Go Report Card](https://goreportcard.com/badge/github.com/seryiza/go-shikimori)](https://goreportcard.com/report/github.com/seryiza/go-shikimori)
+
 ## Описание
 Пакет предназначен для взаимодействия с [API Шикимори](https://shikimori.org/api/doc).
-
-Сейчас поддерживается **только [API 1.0](https://shikimori.org/api/doc/1.0)**.
 
 ## Зависимости
 * [github.com/golang/oauth2](https://github.com/golang/oauth2)
 * [github.com/seryiza/loadOAuth](https://github.com/seryiza/loadOAuth) (пакет `helpers`)
-* [github.com/pasztorpisti/qs](https://github.com/pasztorpisti/qs)
 * [github.com/headzoo/surf](https://github.com/headzoo/surf)
 
 ## Установка
@@ -23,25 +21,28 @@ go get github.com/seryiza/go-shikimori
 ### Работа с API
 Объект `api.Shikimori` предназначен для взаимодействия с API Шикимори. Можно использовать через:
 
-* HTTP-запросы `Shikimori.Client` (работа с GET/POST/PUT/DELETE + JSON ложится на Вас):
+* HTTP-запросы `Shikimori.Get/Post/...`:
 ```go
-  // shiki := api.Shikimori{...}
+  // var shiki *goshikimori.Shikimori
 
-  // => https://shikimori.org/api/users/whoami
-  whoamiURL := shiki.ApiURL("/api/users/whoami")
-  resp, _ := shiki.Client.Get(whoamiURL)
-  whoamiJSON, _ := ioutil.ReadAll(resp.Body)
+  resp, _ := shiki.Get("users/whoami")    // для GET https://shikimori.org/api/users/whoami
+  userJSON, _ := ioutil.ReadAll(resp.Body)
   fmt.Println(string(whoamiJSON))
   // => {"id":206253,"nickname":"Seryiza",...,"locale":"ru"}
 ```
 
-* Методы структуры `Shikimori` (высокоуровневая работа с API и ее сущностями):
+* HTTP-запросы с приведением к структурам `Shikimori.JSONGet/JSONPost/...`:
 ```go
-// shiki := api.Shikimori{...}
+// var shiki *goshikimori.Shikimori
 
-user, err := shiki.Whoami()
-fmt.Println(user, err)
-// => &api.User{
+var im structs.User
+err := shiki.JSONGet("users/whoami", &im)
+if err != nil {
+  panic(err)
+}
+
+fmt.Println(im, err)
+// => structs.User{
 //      ID: 206253,
 //      Nickname: "Seryiza",
 //      ...
@@ -53,17 +54,14 @@ fmt.Println(user, err)
 
 ```go
 conf := &oauth2.Config{
-  ClientID:     "your client id",
-  ClientSecret: "your client secret",
-  // RedirectURL задан для использования как CLI
-  // (!) Примечание: RedirectURL должен совпадать с тем,
-  // что Вы задали на странице приложения Шикимори
+  ClientID:     "your shikimori client id",
+  ClientSecret: "your shikimori client secret",
   RedirectURL:  auth.StandaloneRedirectURL,
   Endpoint:     auth.ShikimoriEndpoint,
 }
 
 url := auth.GetAuthCodeURL(conf)
-fmt.Println("Введите код из этой ссылки: ", url)
+fmt.Println("Enter code from here: ", url)
 
 var code string
 if _, err := fmt.Scanln(&code); err != nil {
@@ -71,7 +69,7 @@ if _, err := fmt.Scanln(&code); err != nil {
 }
 
 ctx := context.Background()
-ctx = auth.AddShikimoriTransport(ctx, "your application name")
+ctx = goshikimori.AddShikimoriTransport(ctx, "your shikimori oauth app name")
 
 tok, err := conf.Exchange(ctx, code)
 if err != nil {
@@ -79,23 +77,31 @@ if err != nil {
 }
 
 client := conf.Client(ctx, tok)
-shiki := &api.Shikimori{
-  Client: client,
+shiki := goshikimori.NewShikimori(client, "1.0")  // 1.0 -- version of Shikimori API
+
+resp, err := shiki.Get("users/whoami")
+if err != nil {
+  panic(err)
 }
 
-user, err := shiki.Whoami()
-fmt.Println(user, err)
+user := &structs.User{}
+jd := json.NewDecoder(resp.Body)
+if err = jd.Decode(user); err != nil {
+  panic(err)
+}
+
+fmt.Printf("I'm %s", user.Nickname)
 ```
 
-Также есть вспомогательные функции `api.DefaultClientByCode`, `api.DefaultClientByToken`, `helpers.GetShikimori` (используя env-переменные) для меньшего написания кода.
+Также есть вспомогательные функции `helpers` (используя файлы и env-переменные) для написания меньшего кода.
 
 ## Тестирование
 Тесты также проверяют запрос-ответ от Шикимори. Для корректной работы всех тестов необходимо задать следующие envirement-переменные:
-* `SHIKI_LOGIN` -- псевдоним пользователя
-* `SHIKI_PASS` -- пароль пользователя (сейчас используется для [/api/sessions](https://shikimori.org/api/doc/1.0/sessions/create.html))
 * `SHIKI_APP_NAME` -- название OAuth-приложения на Шикимори
 * `SHIKI_CLIENTID` -- публичный Client ID приложения на Шикимори
 * `SHIKI_CLIENTSECRET` -- секретный ключ приложения на Шикимори
 * `SHIKI_REDIRECT_URL` -- url для перенаправления приложения (на Шикимори)
 * `SHIKI_TOKEN_FILE` -- путь к файлу с json-токеном
 * `SHIKI_CONF_FILE` -- путь к файлу с json oauth-конфигурацией
+* `SHIKI_LOGIN` -- псевдоним пользователя
+* `SHIKI_PASS` -- пароль пользователя (используется при получении токена, если предыдущий был истекшим)

@@ -1,4 +1,4 @@
-package auth
+package goshikimori
 
 import (
 	"context"
@@ -35,7 +35,7 @@ func AddShikimoriTransport(ctx context.Context, appName string) context.Context 
 	return context.WithValue(ctx, oauth2.HTTPClient, client)
 }
 
-// RoundTrip implements RoundTripper
+// RoundTrip implements RoundTripper. Set User-Agent and call Transport.Target
 func (tr ShikimoriTransport) RoundTrip(req *http.Request) (*http.Response, error) {
 	req.Header.Set("User-Agent", tr.ApplicationName)
 
