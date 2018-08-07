@@ -93,7 +93,26 @@ if err = jd.Decode(user); err != nil {
 fmt.Printf("I'm %s", user.Nickname)
 ```
 
-Также есть вспомогательные функции `helpers` (используя файлы и env-переменные) для написания меньшего кода.
+Также есть вспомогательные функции `helpers` (используя файлы и env-переменные) для написания меньшего кода:
+
+```go
+// GetShikimori получает oauth2 конфиг и токен из файлов или env-переменных
+// и создает Shikimori из стандартного http клиента
+shiki, err := helpers.GetShikimori("1.0")
+if err != nil {
+  panic(err)
+}
+// Сохраняем токен в файл, если он изменился
+defer helpers.SaveToken(shiki)
+
+user := &structs.User{}
+_, err = shiki.JSONGet("users/whoami", user)
+if err != nil {
+  panic(err)
+}
+
+fmt.Printf("I'm %s", user.Nickname)
+```
 
 ## Тестирование
 Тесты также проверяют запрос-ответ от Шикимори. Для корректной работы всех тестов необходимо задать следующие envirement-переменные:
