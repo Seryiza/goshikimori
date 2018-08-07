@@ -14,6 +14,7 @@ import (
 	"github.com/seryiza/goshikimori/structs"
 )
 
+// ExampleShikimori creates and using Shikimori object
 func ExampleShikimori() {
 	conf := &oauth2.Config{
 		ClientID:     os.Getenv("SHIKI_CLIENTID"),
@@ -55,14 +56,15 @@ func ExampleShikimori() {
 	fmt.Printf("I'm %s", user.Nickname)
 }
 
-func ExampleShikimori_withHelpers() {
+// ExampleShikimoriWithHelpers creates Shikimori using `helpers` package
+func ExampleShikimoriWithHelpers() {
 	// GetShikimori gets oauth2 config & token from files or env-variables
 	// and create Shikimori from default http client.
 	shiki, err := helpers.GetShikimori("1.0")
 	if err != nil {
 		panic(err)
 	}
-	// Save token, if changed.
+	// Save token into file, if changed.
 	defer helpers.SaveToken(shiki)
 
 	user := &structs.User{}
