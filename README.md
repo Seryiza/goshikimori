@@ -1,5 +1,5 @@
 # API Шикимори для Golang
-[![GoDoc](https://godoc.org/github.com/Seryiza/go-shikimori?status.svg)](https://godoc.org/github.com/Seryiza/go-shikimori) [![Go Report Card](https://goreportcard.com/badge/github.com/seryiza/go-shikimori)](https://goreportcard.com/report/github.com/seryiza/go-shikimori)
+[![GoDoc](https://godoc.org/github.com/Seryiza/goshikimori?status.svg)](https://godoc.org/github.com/Seryiza/goshikimori) [![Go Report Card](https://goreportcard.com/badge/github.com/seryiza/goshikimori)](https://goreportcard.com/report/github.com/seryiza/goshikimori)
 
 ## Описание
 Пакет предназначен для взаимодействия с [API Шикимори](https://shikimori.org/api/doc).
@@ -11,7 +11,7 @@
 
 ## Установка
 ```bash
-go get github.com/seryiza/go-shikimori
+go get github.com/seryiza/goshikimori
 ```
 
 ## Использование
