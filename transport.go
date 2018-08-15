@@ -38,18 +38,22 @@ func AddShikimoriTransport(ctx context.Context, appName string) context.Context 
 // RoundTrip implements RoundTripper. Set User-Agent and call Transport.Target
 func (tr ShikimoriTransport) RoundTrip(req *http.Request) (*http.Response, error) {
 	req.Header.Set("User-Agent", tr.ApplicationName)
+	req.Header.Set("Content-Type", "application/json")
 
 	resp, err := tr.target().RoundTrip(req)
 	if err != nil {
 		return resp, err
 	}
 
-	// todo: подумать над обработкой ошибок токена
-	if resp.StatusCode == http.StatusUnauthorized {
+	if !isTokenCorrect(resp) {
 		return resp, errors.New("The access token is invalid")
 	}
 
 	return resp, err
+}
+
+func isTokenCorrect(resp *http.Response) bool {
+	return resp.StatusCode != http.StatusUnauthorized
 }
 
 func (tr ShikimoriTransport) target() http.RoundTripper {
