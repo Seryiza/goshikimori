@@ -6,4 +6,5 @@
 Например:
 ```
 $ gorram github.com/seryiza/go-shikimori/examples ExampleGetToken
+$ gorram github.com/seryiza/goshikimori/examples PrintShikiGet "users/386084/info"
 ```

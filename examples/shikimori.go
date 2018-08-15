@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"os"
 
 	"golang.org/x/oauth2"
@@ -74,4 +75,25 @@ func ExampleShikimoriWithHelpers() {
 	}
 
 	fmt.Printf("I'm %s", user.Nickname)
+}
+
+// PrintShikiGet print GET response from Shikimori
+func PrintShikiGet(method string) {
+	shiki, err := helpers.GetShikimori("1.0")
+	if err != nil {
+		panic(err)
+	}
+	defer helpers.SaveToken(shiki)
+
+	resp, err := shiki.Get(method)
+	if err != nil {
+		panic(err)
+	}
+
+	jsonBytes, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(string(jsonBytes))
 }
