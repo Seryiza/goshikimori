@@ -11,7 +11,7 @@ import (
 	"github.com/seryiza/goshikimori"
 	"github.com/seryiza/goshikimori/auth"
 	"github.com/seryiza/goshikimori/helpers"
-	"github.com/seryiza/goshikimori/structs"
+	"github.com/seryiza/goshikimori/models"
 )
 
 // ExampleShikimori creates and using Shikimori object
@@ -47,7 +47,7 @@ func ExampleShikimori() {
 		panic(err)
 	}
 
-	user := &structs.User{}
+	user := &models.User{}
 	jd := json.NewDecoder(resp.Body)
 	if err = jd.Decode(user); err != nil {
 		panic(err)
@@ -67,7 +67,7 @@ func ExampleShikimoriWithHelpers() {
 	// Save token into file, if changed.
 	defer helpers.SaveToken(shiki)
 
-	user := &structs.User{}
+	user := &models.User{}
 	_, err = shiki.JSONGet("users/whoami", user)
 	if err != nil {
 		panic(err)
