@@ -1,4 +1,4 @@
-package structs
+package models
 
 type Videos []Video
 

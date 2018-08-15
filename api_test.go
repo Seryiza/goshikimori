@@ -5,9 +5,10 @@ import (
 	"testing"
 
 	"github.com/seryiza/goshikimori/helpers"
-	"github.com/seryiza/goshikimori/structs"
+	"github.com/seryiza/goshikimori/models"
 )
 
+// Test Shikimori struct and api call (not models)
 func TestGetUser(t *testing.T) {
 	userID := 206253
 	wantNickname := "Seryiza"
@@ -19,7 +20,7 @@ func TestGetUser(t *testing.T) {
 	}
 	defer helpers.SaveToken(shiki)
 
-	user := &structs.User{}
+	user := &models.User{}
 	if _, err = shiki.JSONGet(method, user); err != nil {
 		t.Error(err)
 	}

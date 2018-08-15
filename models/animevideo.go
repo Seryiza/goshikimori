@@ -1,4 +1,4 @@
-package structs
+package models
 
 const (
 	// kind of anime video
