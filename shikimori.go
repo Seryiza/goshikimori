@@ -1,7 +1,9 @@
 package goshikimori
 
 import (
+	"fmt"
 	"net/http"
+	"net/url"
 )
 
 const (
@@ -37,4 +39,10 @@ func getAPIFormat(version string) string {
 	default:
 		return shikimoriAPI_v1
 	}
+}
+
+// FormatQuery returns Shikimori method with HTTP GET values.
+// Ex., "users", {"limit": 100} => "users?limit=100"
+func FormatQuery(method string, values url.Values) string {
+	return fmt.Sprintf("%s?%s", method, values.Encode())
 }
