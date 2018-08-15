@@ -88,7 +88,11 @@ func GetToken(conf *oauth2.Config) (*oauth2.Token, error) {
 func getTokenByLogin(conf *oauth2.Config) (*oauth2.Token, error) {
 	url := auth.GetAuthCodeURL(conf)
 	appName := os.Getenv(shikiAppName)
-	login, password := os.Getenv(shikiLogin), os.Getenv(shikiPassword)
+
+	login, password, err := getLoginAndPassword()
+	if err != nil {
+		return nil, err
+	}
 
 	code, err := auth.GetCodeByLogin(url, appName, login, password)
 	if err != nil {
@@ -101,6 +105,17 @@ func getTokenByLogin(conf *oauth2.Config) (*oauth2.Token, error) {
 	}
 
 	return tok, nil
+}
+
+// getLoginAndPassword returns login and password of user from env-vars.
+// Return error, if env-vars are empty.
+func getLoginAndPassword() (string, string, error) {
+	login, password := os.Getenv(shikiLogin), os.Getenv(shikiPassword)
+	if login == "" || password == "" {
+		return "", "", errors.New("Empty login and/or password from env-vars")
+	}
+
+	return login, password, nil
 }
 
 // GetAppName returns Shikimori application name
