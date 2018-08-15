@@ -42,7 +42,7 @@ if err != nil {
 }
 
 fmt.Println(im, err)
-// => structs.User{
+// => models.User{
 //      ID: 206253,
 //      Nickname: "Seryiza",
 //      ...

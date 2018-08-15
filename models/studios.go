@@ -1,7 +1,9 @@
 package models
 
+// Studios on Shikimori
 type Studios []Studio
 
+// Studio on Shikimori
 type Studio struct {
 	ID           int32  `json:"id"`
 	Name         string `json:"name"`
