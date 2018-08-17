@@ -55,7 +55,7 @@ func TestTransport(t *testing.T) {
 		RequestChecker:   headersChecker,
 	}
 
-	shikiTransport := goshikimori.ShikimoriTransport{
+	shikiTransport := goshikimori.Transport{
 		ApplicationName: appName,
 		Target:          client,
 	}
@@ -90,7 +90,7 @@ func TestInvalidToken(t *testing.T) {
 		OutputBody:       outputBody,
 	}
 
-	shikiTransport := goshikimori.ShikimoriTransport{
+	shikiTransport := goshikimori.Transport{
 		ApplicationName: appName,
 		Target:          client,
 	}
