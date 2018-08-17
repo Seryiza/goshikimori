@@ -16,6 +16,6 @@ func TestFormatQuery(t *testing.T) {
 
 	gotURL := goshikimori.FormatQuery(haveMethod, haveValues)
 	if gotURL != wantURL {
-		t.Errorf("FormatQuery is invalid; Want %v, got %v", gotURL, wantURL)
+		t.Errorf("FormatQuery is invalid; Want %v, got %v", wantURL, gotURL)
 	}
 }
