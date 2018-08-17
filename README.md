@@ -69,7 +69,7 @@ if _, err := fmt.Scanln(&code); err != nil {
 }
 
 ctx := context.Background()
-ctx = goshikimori.AddShikimoriTransport(ctx, "your shikimori oauth app name")
+ctx = goshikimori.AddTransport(ctx, "your shikimori oauth app name")
 
 tok, err := conf.Exchange(ctx, code)
 if err != nil {

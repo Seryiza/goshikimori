@@ -8,17 +8,17 @@ import (
 	"golang.org/x/oauth2"
 )
 
-// ShikimoriTransport for adding headers
-type ShikimoriTransport struct {
+// Transport for adding headers
+type Transport struct {
 	// As User-Agent for Shikimori
 	ApplicationName string
 	Target          http.RoundTripper
 }
 
-// AddShikimoriTransport to context.
+// AddTransport to context.
 // If ctx.Value(oauth2.HTTPClient) == nil, then using
-// DefaultTransport + ShikimoriTransport
-func AddShikimoriTransport(ctx context.Context, appName string) context.Context {
+// DefaultTransport + Shikimori Transport
+func AddTransport(ctx context.Context, appName string) context.Context {
 	ctxClient := ctx.Value(oauth2.HTTPClient)
 
 	var client *http.Client
@@ -28,7 +28,7 @@ func AddShikimoriTransport(ctx context.Context, appName string) context.Context 
 		client = ctxClient.(*http.Client)
 	}
 
-	client.Transport = ShikimoriTransport{
+	client.Transport = Transport{
 		ApplicationName: appName,
 		Target:          client.Transport,
 	}
@@ -36,7 +36,7 @@ func AddShikimoriTransport(ctx context.Context, appName string) context.Context 
 }
 
 // RoundTrip implements RoundTripper. Set User-Agent and call Transport.Target
-func (tr ShikimoriTransport) RoundTrip(req *http.Request) (*http.Response, error) {
+func (tr Transport) RoundTrip(req *http.Request) (*http.Response, error) {
 	req.Header.Set("User-Agent", tr.ApplicationName)
 	req.Header.Set("Content-Type", "application/json")
 
@@ -56,7 +56,7 @@ func isTokenCorrect(resp *http.Response) bool {
 	return resp.StatusCode != http.StatusUnauthorized
 }
 
-func (tr ShikimoriTransport) target() http.RoundTripper {
+func (tr Transport) target() http.RoundTripper {
 	if tr.Target != nil {
 		return tr.Target
 	}
