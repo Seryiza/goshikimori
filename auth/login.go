@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	createSessionURL = `https://shikimori.org/api/sessions`
+	createSessionURL = `https://shikimori.one/api/sessions`
 	jsonErrorKey     = "error"
 
 	authAgreeForm = "form.authorize"

@@ -7,8 +7,8 @@ import (
 )
 
 const (
-	shikimoriAPI_v1 = "https://shikimori.org/api/%s"
-	shikimoriAPI_v2 = "https://shikimori.org/api/v2/%s"
+	shikimoriAPI_v1 = "https://shikimori.one/api/%s"
+	shikimoriAPI_v2 = "https://shikimori.one/api/v2/%s"
 )
 
 // Shikimori to send requests to Shikimori API

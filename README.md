@@ -2,7 +2,7 @@
 [![GoDoc](https://godoc.org/github.com/Seryiza/goshikimori?status.svg)](https://godoc.org/github.com/Seryiza/goshikimori) [![Go Report Card](https://goreportcard.com/badge/github.com/seryiza/goshikimori)](https://goreportcard.com/report/github.com/seryiza/goshikimori)
 
 ## Описание
-Пакет предназначен для взаимодействия с [API Шикимори](https://shikimori.org/api/doc).
+Пакет предназначен для взаимодействия с [API Шикимори](https://shikimori.one/api/doc).
 
 ## Зависимости
 * [github.com/golang/oauth2](https://github.com/golang/oauth2)
@@ -16,7 +16,7 @@ go get github.com/seryiza/goshikimori
 
 ## Использование
 ### OAuth2
-Прежде всего, для OAuth2 потребуется создать приложение [на самом Шикимори](https://shikimori.org/oauth/applications). Для авторизации потребуется *название приложения*, *client id* и *client secret*.
+Прежде всего, для OAuth2 потребуется создать приложение [на самом Шикимори](https://shikimori.one/oauth/applications). Для авторизации потребуется *название приложения*, *client id* и *client secret*.
 
 ### Работа с API
 Объект `goshikimori.Shikimori` предназначен для взаимодействия с API Шикимори. Можно использовать через:
@@ -25,7 +25,7 @@ go get github.com/seryiza/goshikimori
 ```go
   // var shiki *goshikimori.Shikimori
 
-  resp, _ := shiki.Get("users/whoami")    // для GET https://shikimori.org/api/users/whoami
+  resp, _ := shiki.Get("users/whoami")    // для GET https://shikimori.one/api/users/whoami
   userJSON, _ := ioutil.ReadAll(resp.Body)
   fmt.Println(string(userJSON))
   // => {"id":206253,"nickname":"Seryiza",...,"locale":"ru"}

@@ -9,6 +9,6 @@ const (
 
 // ShikimoriEndpoint for Shikimori OAuth2
 var ShikimoriEndpoint = oauth2.Endpoint{
-	AuthURL:  "https://shikimori.org/oauth/authorize",
-	TokenURL: "https://shikimori.org/oauth/token",
+	AuthURL:  "https://shikimori.one/oauth/authorize",
+	TokenURL: "https://shikimori.one/oauth/token",
 }
