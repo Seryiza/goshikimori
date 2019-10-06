@@ -10,7 +10,7 @@ import (
 )
 
 // NewRequest returns request for Shikimori (add to method full address).
-// Ex., ("GET", "whoami", nil) => ("GET", "https://shikimori.org/api/whoami", nil)
+// Ex., ("GET", "whoami", nil) => ("GET", "https://shikimori.one/api/whoami", nil)
 func (shiki *Shikimori) NewRequest(httpMethod, shikiMethod string, body io.Reader) (*http.Request, error) {
 	fullURL := fmt.Sprintf(shiki.URLFormat, shikiMethod)
 	return http.NewRequest(httpMethod, fullURL, body)

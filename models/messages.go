@@ -47,7 +47,7 @@ type MessageResult struct {
 }
 
 // MarkReadMessages - Mark messages as read or unread.
-// https://shikimori.org/api/doc/1.0/messages/read_all
+// https://shikimori.one/api/doc/1.0/messages/read_all
 type MarkReadMessages struct {
 	// IDs list separated by comma.
 	// Ex., "17,18,987654".
@@ -58,14 +58,14 @@ type MarkReadMessages struct {
 }
 
 // ReadAllMessages - Mark all messages as read
-// https://shikimori.org/api/doc/1.0/messages/read_all
+// https://shikimori.one/api/doc/1.0/messages/read_all
 type ReadAllMessages struct {
 	Frontend     bool   `json:"frontend"`
 	MessagesType string `json:"type"`
 }
 
 // DeleteAllMessages - Delete all messages
-// https://shikimori.org/api/doc/1.0/messages/delete_all
+// https://shikimori.one/api/doc/1.0/messages/delete_all
 type DeleteAllMessages struct {
 	Frontend     bool   `json:"frontend"`
 	MessagesType string `json:"type"`

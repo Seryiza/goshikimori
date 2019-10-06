@@ -66,15 +66,15 @@ var someUserBrief = &models.UserBrief{
 	User: models.User{
 		ID:       386084,
 		Nickname: "SeryizasBot",
-		Avatar:   "https://dere.shikimori.org/system/users/x48/386084.png?1532088739",
+		Avatar:   "https://dere.shikimori.one/system/users/x48/386084.png?1532088739",
 		Image: models.UserImage{
-			X160: "https://dere.shikimori.org/system/users/x160/386084.png?1532088739",
-			X148: "https://dere.shikimori.org/system/users/x148/386084.png?1532088739",
-			X80:  "https://dere.shikimori.org/system/users/x80/386084.png?1532088739",
-			X64:  "https://dere.shikimori.org/system/users/x64/386084.png?1532088739",
-			X48:  "https://dere.shikimori.org/system/users/x48/386084.png?1532088739",
-			X32:  "https://dere.shikimori.org/system/users/x32/386084.png?1532088739",
-			X16:  "https://dere.shikimori.org/system/users/x16/386084.png?1532088739",
+			X160: "https://dere.shikimori.one/system/users/x160/386084.png?1532088739",
+			X148: "https://dere.shikimori.one/system/users/x148/386084.png?1532088739",
+			X80:  "https://dere.shikimori.one/system/users/x80/386084.png?1532088739",
+			X64:  "https://dere.shikimori.one/system/users/x64/386084.png?1532088739",
+			X48:  "https://dere.shikimori.one/system/users/x48/386084.png?1532088739",
+			X32:  "https://dere.shikimori.one/system/users/x32/386084.png?1532088739",
+			X16:  "https://dere.shikimori.one/system/users/x16/386084.png?1532088739",
 		},
 
 		LastOnlineAt: time.Time{},
